@@ -57,23 +57,22 @@ ST是通用MCU市场的TOP3之一，STM8S003成本在能接受的范围内(相�
     https://www.zhihu.com/question/27467127
 )
 
-![](assets/markdown-img-paste-20200818165408498.png)
-
-
-![](assets/markdown-img-paste-20200818190859816.png)
-
-取： Output = Input ^ (1/Gamma)
-     (Gamma = 2.2)
+![](assets/markdown-img-paste-20200818165408498.png)\
+\
+![](assets/markdown-img-paste-20200818190859816.png)\
+\
+取： Output = Input ^ (1/Gamma)\
+     (Gamma = 2.2)\
 
 如果直接将数学公式引入代码中去计算，STM8S003主频最高16MHz，运算量太大跑不动。
 
-换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值
-         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接得到PWM占空比数
-         值。
-         先偿试以0--100的数值代入Input求得Output,再观察Input与Output数值的变化, 然
-         后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM周
-         期，相应的就得到一个0--100%的table表 (范例代码中只取前面100个数字，刚好
-         100步)：
+换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值\
+         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接得到PWM占空比数\
+         值。\
+         先偿试以0--100的数值代入Input求得Output,再观察Input与Output数值的变化, 然\
+         后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM周\
+         期，相应的就得到一个0--100%的table表 (范例代码中只取前面100个数字，刚好\
+         100步)。\
 
 /**
   * gamma = 2.2
