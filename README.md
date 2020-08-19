@@ -12,9 +12,9 @@ Docs/ChargerCase_ref.pdf是常见的洛达充电盒低成本MCU方案参考线�
 
 ## 设计目标</br>
 在满足洛达充电盒基本功能需求之外，支持以下需求:</br>
-1.  flash型MCU</br>
-2.  最多支持4个LED</br>
-3.  4路PWM并可独立控制</br>
+1.  `flash型MCU`</br>
+2.  `最多支持4个LED`</br>
+3.  `4路PWM并可独立控制`</br>
 4.  支持Hall Sensor</br>
 5.  至少支持一个按键</br>
 6.  支持充电设备检测</br>
