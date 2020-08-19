@@ -1,6 +1,6 @@
-# Smart Charger Case of AB1532 by STM8S003
-
-用STM8S003替代常见的低成本MCU洛达充电盒方案。
+Smart Charger Case of AB1532 by STM8S003
+========
+  Airoha耳机方案充电盒用STM8S003替代常见的低成本MCU。
 
 参考线路ChargerCase_ref.pdf是洛达充电盒常见的MCU方案，如果UI要求4个LED同时支持呼吸灯
 功能，这种低成本MCU就满足不了需求。
