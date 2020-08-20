@@ -107,10 +107,10 @@ Docs/ChargerCase_stm8.pdf 是STM8S003充电盒线路图，线路图上分配的G
          100步)。</br>
 ```c
 /**
-  * gamma = 2.2\
-  * Output = Input^(1/gamma)\
+  * gamma = 2.2
+  * Output = Input^(1/gamma)
   */
-CONST uint16_t gamma_table[100] = {\
+CONST uint16_t gamma_table[100] = {
 	    0,     1,     5, 	  11,    21,    35,    51,    72,    97,   126,
 	  158,   195,   237,   282,   332,   387,   446,   509,   577,   650,
 	  728,   811,   899,   991,  1088,  1189,  1297,  1409,  1526,  1649,
@@ -134,11 +134,13 @@ STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉
 @par Example Description</br>
 This example provides a short description of how to use the TIM1 PWM peripheral:
 Change the macro define in chgcase_cfg.h listed as below before compile,
-TIM1_CH [1:4] will output corresponding PWM pulse.</br>
+TIM1_CH [1:4] will output corresponding PWM pulse.\</br>
 
+```c
 #define GUI_ALL_ON 					    1 //fixed pwm duty
 //#define GUI_MARQUEE 					1 //marquee control
 //#define GUI_LUMOS 					  1 //breathing light
+```
 
 @par HINT</br>
 - Before using TIM1_CH3 and TIM1_CH4 you have to configure option bytes in order
