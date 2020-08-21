@@ -110,7 +110,7 @@ CE控制脚的电压升高对开关时延是否会有改善在规格书上未有
 &ensp;&ensp;&ensp;)
 
 &ensp; 灰度等级
-&ensp; ![gray_lvl](assets/markdown-img-paste-20200818190859816.png)
+&ensp; ![](https://i.loli.net/2020/08/21/9HbwJ8EFSCA64GY.png)
 
 取： Output = Input ^ (1/Gamma)</br>
 &ensp;&ensp;&ensp;&ensp;     (Gamma = 2.2)\</br>
