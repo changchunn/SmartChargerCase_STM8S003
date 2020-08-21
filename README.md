@@ -12,14 +12,14 @@ Docs/ChargerCase_ref.pdf是常见的洛达充电盒低成本MCU方案参考线�
 
 ## 设计目标</br>
 在满足洛达充电盒基本功能需求之外，支持以下需求:</br>
-  1.  `flash型MCU`</br>
-  2.  `最多支持4个LED`</br>
-  3.  `4路PWM并可独立控制`</br>
-  4.  `支持Hall Sensor`</br>
-  5.  `至少支持一个按键`</br>
-  6.  `支持充电设备检测`</br>
-  7.  `支持NTC温度检测`
-  8.  `5V常在条件下工作电流不大于100uA`\</br>
+  1.  flash型MCU</br>
+  2.  最多支持4个LED</br>
+  3.  4路PWM并可独立控制</br>
+  4.  支持Hall Sensor</br>
+  5.  至少支持一个按键</br>
+  6.  支持充电设备检测</br>
+  7.  支持NTC温度检测</br>
+  8.  5V常在条件下工作电流不大于100uA\</br>
 
   * **为什么是STM8S003**？</br>
   ST MCU在市场上应用广范，是很多国产MCU厂商学习的对手。STM8S003的价格RMB1.10左右，相
@@ -29,8 +29,9 @@ Docs/ChargerCase_ref.pdf是常见的洛达充电盒低成本MCU方案参考线�
   对于规模不大的工厂，用一套充电盒方案解决当前的需求及可能存在的需求变化，替换现有的多
   种充电盒方案，以降低业务/开发/仓储成本，具有一定的可行性。</br>
   低成本MCU基本上都是OTP MCU，只能烧录一次，软件无法升级。每家工厂多少都会有一些尾货或
-  一定数量的备品，有些时候更改UI就能改成另外一款产品，从工厂的角度而言在此所讨论的充电盒
-  方案还是有一定的意义。
+  一定数量的备品，有些时候更改UI就能改成另外一款产品，对于工厂而言肯定会用到多家方案，
+  Qualcomm/Airoha/BES等等，如果每个方案都有十来款充电盒，这个数量就很可观，如何来减少
+  这种问题的出现，在产品开发的时候就需要考虑到。
 
   * **为什么PWM输出端口要可独立控制**？</br>
 目前在TWS耳机市场，充电盒LED数量4/3/1都有，超过4个LED的可能有但大多数客户的产品最多是
@@ -69,41 +70,41 @@ ETA9697实际测试功耗时电池电压在3.30V--4.10V时输出5V，工作电�
 上洛达耳机方案需要的充电盒外围线路功耗在20uA左右，元器件质量对此功耗有很大影响，曾经硬件
 工程师在充电盒的POGO PIN端加了几个TVS管，功耗直接奔mA级。</br>
 整个线路评估下来工作电流可控制在70uA左右。实际在飞线搭原型机上测试在5V常在未放入耳机时充
-电盒工作电流可控制在60--70uA。
+电盒工作电流可控制在60--70uA。</br>
 
-![1532IF](assets/markdown-img-paste-20200821001606681.png)
+  ![chgcase_if](https://i.loli.net/2020/08/21/P3Xr5TRiD6EHqom.png)
 
-
-
-Docs/ChargerCase_stm8.pdf 是STM8S003充电盒线路图，线路图上分配的GPIO功能定义是目前认
-为最佳的选择，相应的功能在STM8S003/STM8S103F3P都可实现。
+具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003充电盒线路图，线路图上分配的GPIO
+功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO相应的功
+能在STM8S003/STM8S103F3P均可实现。
 
 ## LED Gammar Correction</br>
 
-简单的呼吸灯通常是将PWM占空比从0加到100，再从100减到0，往复变化。这样做的缺点是LED显示
-在视觉上是突然间变亮或变暗，因此在PWM调光中引入Gamma Correction，来获得比较满意的灰度
+呼吸灯通常是将PWM占空比从0加到100，再从100减到0，往复变化。这样做的缺点是LED显示在视觉
+上是突然间变亮或变暗，因此在LED显示PWM调光中引入Gamma Correction，来获得比较满意的灰度
 变化(线性渐变)。</br>
 
-( 关于Gamma的意义，可以参阅以下文章：</br>
-    色彩校正中的gamma值是什么
-    https://www.zhihu.com/question/27467127
-)
+Gamma曲线</br>
+![gamma_curve](assets/markdown-img-paste-20200818165408498.png)</br>
 
-  ![test](assets/markdown-img-paste-20200818165408498.png)
-</br>
-  ![](assets/markdown-img-paste-20200818190859816.png)
-\
+灰度等级
+![gray_lvl](assets/markdown-img-paste-20200818190859816.png)
+
 取： Output = Input ^ (1/Gamma)</br>
      (Gamma = 2.2)\</br>
 
+     ( 关于Gamma的意义，可以参阅以下文章：</br>
+         色彩校正中的gamma值是什么</br>
+         https://www.zhihu.com/question/27467127
+     )
 如果直接将数学公式引入代码中去计算，STM8S003主频最高16MHz，运算量太大跑不动。
 
 换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值
-         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接得到PWM占空比数
-         值。</br>
-         先偿试以0--100的数值代入Input求得Output,再观察Input与Output数值的变化关系,
-         然后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM周
-         期数值，相应的就得到一个0--100%的table表。</br>
+         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接计算得到PWM占空
+         比数值。</br>
+         偿试以0--100的数值代入Input求得Output, 再观察Input与Output数值的变化关系,
+         然后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM
+         周期数值，由此就得到一个0--100%的table表。</br>
 ```c
 /**
   * gamma = 2.2
@@ -127,7 +128,7 @@ CONST uint16_t gamma_table[100] = {
 这个table表是否能为STM8S003所用？</br>
 STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉冲宽度25119 < 2^16, 只
 要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。在参
-考范例代码中只取了table表中的0--99， 取0--100也是可以的。</br>
+考范例代码中只取了table表中的0--99。</br>
 
 
 
