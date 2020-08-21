@@ -102,7 +102,7 @@ CE控制脚的电压升高对开关时延是否会有改善在规格书上未有
 变化(线性渐变)。</br>
 
 &ensp; Gamma曲线</br>
-&ensp; ![gamma_curve](https://i.loli.net/2020/08/21/VTdqzojlmMS9pLK.png)</br>
+&ensp; ![gamma_curve](https://i.loli.net/2020/08/21/2vhMTdngiIUDtRf.png)</br>
 
 &ensp;&ensp;  ( 关于Gamma的意义，可以参阅以下文章：</br>
 &ensp;&ensp;&ensp;  **色彩校正中的gamma值是什么** </br>
@@ -110,7 +110,7 @@ CE控制脚的电压升高对开关时延是否会有改善在规格书上未有
 &ensp;&ensp;&ensp;)
 
 &ensp; 灰度等级
-&ensp; ![](https://i.loli.net/2020/08/21/9HbwJ8EFSCA64GY.png)
+&ensp; ![gray_lvl](https://i.loli.net/2020/08/21/1pYxZtKVITnbJMi.png)
 
 取： Output = Input ^ (1/Gamma)</br>
 &ensp;&ensp;&ensp;&ensp;     (Gamma = 2.2)\</br>
