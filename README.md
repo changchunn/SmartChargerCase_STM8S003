@@ -149,9 +149,14 @@ STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉
 要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。在参
 考范例代码中只取了table表中的0--99。</br>
 
-
+## Code
+### stm8s_tim1_pwm
 
 @par Example Description</br>
+
+This example shows how to configure the TIM1 peripheral to generate 4 PWM signals
+with different duty cycles by gamma_table value.
+
 This example provides a short description of how to use the TIM1 PWM peripheral:
 Change the macro define in chgcase_cfg.h listed as below before compile,
 TIM1_CH [1:4] will output corresponding PWM pulse.</br>
