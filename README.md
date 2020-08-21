@@ -117,12 +117,12 @@ CE控制脚的电压升高对开关时延是否会有改善在规格书上未有
 
 如果直接将数学公式引入代码中去计算，STM8S003主频最高才16MHz，运算量太大估计跑不动。
 
-换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值
-         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接计算得到PWM占空
-         比数值。</br>
-         偿试以0--100的数值代入Input求得Output, 再观察Input与Output数值的变化关系,
-         然后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM
-         周期数值，由此就得到一个0--100%的table表。</br>
+换种思路：Output是我们希望的线性渐变的灰度的百分比值 (从0到100%，简化计算，只取整数
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp;&ensp; 值0--100)，Input是输入的PWM占空比，因为PWM周期未定，无法直接计算得到</br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;PWM占空比数值。偿试以0--100的数值代入Input求得Output, 再观察Input与Output</br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;数值的变化关系,然后再将Input数值逐渐加大，当Output数值为1时的Input值就是我
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;们想要得到的PWM周期值，由此就得到一个0--100%的table表。</br>
+
 ```c
 /**
   * gamma = 2.2
