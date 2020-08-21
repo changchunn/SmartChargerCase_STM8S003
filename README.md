@@ -72,7 +72,21 @@ ETA9697实际测试功耗时电池电压在3.30V--4.10V时输出5V，工作电�
 整个线路评估下来工作电流可控制在70uA左右。实际在飞线搭原型机上测试在5V常在未放入耳机时充
 电盒工作电流可控制在60--70uA。</br>
 
-  &ensp; ![chgcase_if](https://i.loli.net/2020/08/21/P3Xr5TRiD6EHqom.png)
+  &ensp; ![chgcase_if](https://i.loli.net/2020/08/21/P3Xr5TRiD6EHqom.png)</br>
+
+上面这部分线路在设计时是想用XC8108来替换的(如下图所示)。
+
+  &ensp; &ensp; &ensp; &ensp;&ensp;   ![opt_xc8108](https://i.loli.net/2020/08/21/pYotXVFPIfyCMhU.png)</br>
+
+因为洛达耳机方案充电盒在单线通讯发送命令时会有轻微的"吱吱"噪音 (这个噪音的大小取决于控
+制线路的匹配，无法根除)。因为XC8108具有逆流降止功能，控制XC8108的CE脚关断输出时不会对
+充电芯片造成影响，XC8108的开关时延如下表所示。
+
+&ensp; &ensp; ![turn_onoff](https://i.loli.net/2020/08/21/SOW5dyrhoYHU4m6.png)
+
+CE控制脚的电压升高对开关时延是否会有改善在规格书上未有明确说明，如果充电盒通讯命令协议是
+以1ms单位来计时，用XC8108来替代控制线路可能需要修改协议，后面如果有机会将完善这部分功
+能的评估。
 
 具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003充电盒线路图，线路图上分配的GPIO
 功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO相应的功
