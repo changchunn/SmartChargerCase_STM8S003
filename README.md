@@ -137,8 +137,8 @@ Change the macro define in chgcase_cfg.h listed as below before compile,
 TIM1_CH [1:4] will output corresponding PWM pulse.</br>
 
 ```c
-#define GUI_ALL_ON               1//fixed pwm duty
-//#define GUI_MARQUEE              1//marquee control
+#define GUI_ALL_ON                1//fixed pwm duty
+//#define GUI_MARQUEE             1//marquee control
 //#define GUI_LUMOS               1//breathing light
 ```
 
