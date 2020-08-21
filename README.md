@@ -80,17 +80,20 @@ ETA9697实际测试功耗时电池电压在3.30V--4.10V时输出5V，工作电�
 
 因为洛达耳机方案充电盒在单线通讯发送命令时会有轻微的"吱吱"噪音 (这个噪音的大小取决于控
 制线路的匹配，无法根除)。因为XC8108具有逆流降止功能，控制XC8108的CE脚关断输出时不会对
-充电芯片造成影响，XC8108的开关时延如下表所示。
+充电芯片造成影响，想利用它的这个特性来实现充电盒的单线通讯功能。
+
+XC8108的开关时延如下表所示：</br>
 
 &ensp; &ensp; ![turn_onoff](https://i.loli.net/2020/08/21/SOW5dyrhoYHU4m6.png)
 
 CE控制脚的电压升高对开关时延是否会有改善在规格书上未有明确说明，如果充电盒通讯命令协议是
-以1ms单位来计时，用XC8108来替代控制线路可能需要修改协议，后面如果有机会将完善这部分功
+以1ms单位来计时，用XC8108来替代控制线路可能需要修改协议，后面如果有机会再来完善这部分功
 能的评估。
 
-具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003充电盒线路图，线路图上分配的GPIO
-功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO相应的功
-能在STM8S003/STM8S103F3P均可实现。
+具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003洛达耳机充电盒线路图，线路图上分
+配的GPIO功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO
+相应的功能在STM8S003/STM8S103F3P均可实现。
+
 
 ## LED Gammar Correction</br>
 
@@ -99,19 +102,20 @@ CE控制脚的电压升高对开关时延是否会有改善在规格书上未有
 变化(线性渐变)。</br>
 
 &ensp; Gamma曲线</br>
-&ensp; ![gamma_curve](assets/markdown-img-paste-20200818165408498.png)</br>
+&ensp; ![gamma_curve](https://i.loli.net/2020/08/21/VTdqzojlmMS9pLK.png)</br>
+
+&ensp;&ensp;  ( 关于Gamma的意义，可以参阅以下文章：</br>
+&ensp;&ensp;&ensp;  **色彩校正中的gamma值是什么** </br>
+&ensp;&ensp;&ensp;  https://www.zhihu.com/question/27467127</br>
+&ensp;&ensp;&ensp;)
 
 &ensp; 灰度等级
 &ensp; ![gray_lvl](assets/markdown-img-paste-20200818190859816.png)
 
 取： Output = Input ^ (1/Gamma)</br>
-     (Gamma = 2.2)\</br>
+&ensp;&ensp;&ensp;&ensp;     (Gamma = 2.2)\</br>
 
-     ( 关于Gamma的意义，可以参阅以下文章：</br>
-         色彩校正中的gamma值是什么</br>
-         https://www.zhihu.com/question/27467127
-     )
-如果直接将数学公式引入代码中去计算，STM8S003主频最高16MHz，运算量太大跑不动。
+如果直接将数学公式引入代码中去计算，STM8S003主频最高才16MHz，运算量太大估计跑不动。
 
 换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值
          0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接计算得到PWM占空
