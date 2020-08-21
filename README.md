@@ -73,7 +73,7 @@ ETA9697实际测试功耗时电池电压在3.30V--4.10V时输出5V，工作电�
 
 ![1532IF](assets/markdown-img-paste-20200821001606681.png)
 
-AB1532
+
 
 Docs/ChargerCase_stm8.pdf 是STM8S003充电盒线路图，线路图上分配的GPIO功能定义是目前认
 为最佳的选择，相应的功能在STM8S003/STM8S103F3P都可实现。
@@ -89,7 +89,7 @@ Docs/ChargerCase_stm8.pdf 是STM8S003充电盒线路图，线路图上分配的G
     https://www.zhihu.com/question/27467127
 )
 
-  ![](assets/markdown-img-paste-20200818165408498.png)
+  ![test](assets/markdown-img-paste-20200818165408498.png)
 </br>
   ![](assets/markdown-img-paste-20200818190859816.png)
 \
@@ -98,13 +98,12 @@ Docs/ChargerCase_stm8.pdf 是STM8S003充电盒线路图，线路图上分配的G
 
 如果直接将数学公式引入代码中去计算，STM8S003主频最高16MHz，运算量太大跑不动。
 
-换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值\
-         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接得到PWM占空比数\
+换种思路：Output是我们希望的线性渐变的灰度的百分比值(从0到100%，简化计算，只取整数值
+         0--100)，Input端是输入的PWM占空比，因为PWM周期未定，无法直接得到PWM占空比数
          值。</br>
-         先偿试以0--100的数值代入Input求得Output,再观察Input与Output数值的变化, 然\
-         后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM周\
-         期，相应的就得到一个0--100%的table表 (范例代码中只取前面100个数字，刚好\
-         100步)。</br>
+         先偿试以0--100的数值代入Input求得Output,再观察Input与Output数值的变化关系,
+         然后再将Input数值逐渐加大，当Output数值为1时的Input值就是我们想要得到的PWM周
+         期数值，相应的就得到一个0--100%的table表。</br>
 ```c
 /**
   * gamma = 2.2
@@ -127,7 +126,8 @@ CONST uint16_t gamma_table[100] = {
 
 这个table表是否能为STM8S003所用？</br>
 STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉冲宽度25119 < 2^16, 只
-要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。</br>
+要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。在参
+考范例代码中只取了table表中的0--99， 取0--100也是可以的。</br>
 
 
 
