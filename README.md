@@ -127,19 +127,19 @@ CONST uint16_t gamma_table[100] = {
 
 这个table表是否能为STM8S003所用？</br>
 STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉冲宽度25119 < 2^16, 只
-要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM从0--100%变化。</br>
+要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。</br>
 
 
 
 @par Example Description</br>
 This example provides a short description of how to use the TIM1 PWM peripheral:
 Change the macro define in chgcase_cfg.h listed as below before compile,
-TIM1_CH [1:4] will output corresponding PWM pulse.\</br>
+TIM1_CH [1:4] will output corresponding PWM pulse.</br>
 
 ```c
-#define GUI_ALL_ON 					    1 //fixed pwm duty
-//#define GUI_MARQUEE 					1 //marquee control
-//#define GUI_LUMOS 					  1 //breathing light
+#define GUI_ALL_ON              1//fixed pwm duty
+//#define GUI_MARQUEE               1//marquee control
+//#define GUI_LUMOS               1//breathing light
 ```
 
 @par HINT</br>
