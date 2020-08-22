@@ -79,28 +79,20 @@ ETA9697实际测试功耗时电池电压在3.30V--4.10V时输出5V，工作电�
 
   &ensp; &ensp; &ensp; &ensp;&ensp;   ![opt_xc8108](https://i.loli.net/2020/08/21/pYotXVFPIfyCMhU.png)</br>
 
-因为洛达耳机方案充电盒在单线通讯发送命令时会有轻微的"吱吱"噪音 (这个噪音的大小取决于控
-制线路的匹配，无法根除)。因为XC8108具有逆流降止功能，控制XC8108的CE脚关断输出时不会对
-充电芯片造成影响，想利用它的这个特性来实现充电盒的单线通讯功能。
+因为洛达耳机方案充电盒在单线通讯发送命令时会有轻微的"吱吱"噪音 (这个噪音的大小取决于控制线路的匹配，无法根除)。因为XC8108具有逆流降止功能，控制XC8108的CE脚关断输出时不会对充电芯片造成影响，想利用它的这个特性来实现充电盒的单线通讯功能。
 
 XC8108的开关时延如下表所示：</br>
 
 &ensp; &ensp; ![turn_onoff](https://i.loli.net/2020/08/21/SOW5dyrhoYHU4m6.png)
 
-CE控制脚的电压升高对开关时延是否会有改善在规格书上未有明确说明，如果充电盒通讯命令协议是
-以1ms单位来计时，用XC8108来替代控制线路可能需要修改协议，后面如果有机会再来完善这部分功
-能的评估。
+CE控制脚的电压升高对开关时延是否会有改善在规格书上未有明确说明，如果充电盒通讯命令协议是以1ms单位来计时，用XC8108来替代控制线路可能需要修改协议，后面如果有机会再来完善这部分功能的评估。
 
-具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003洛达耳机充电盒线路图，线路图上分
-配的GPIO功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO
-相应的功能在STM8S003/STM8S103F3P均可实现。
+具体线路图可查看Docs/ChargerCase_stm8.pdf，STM8S003洛达耳机充电盒线路图，线路图上分配的GPIO功能定义是目前认为最佳的选择(STM8S003 GPIO的复用功能还是有坑要填的)，各个GPIO相应的功能在STM8S003/STM8S103F3P均可实现。
 
 
 ## LED Gammar Correction</br>
 
-呼吸灯通常是将PWM占空比从0加到100，再从100减到0，往复变化。这样做的缺点是LED显示在视觉
-上是突然间变亮或变暗，因此在LED显示PWM调光中引入Gamma Correction，来获得比较满意的灰度
-变化(线性渐变)。</br>
+呼吸灯通常是将PWM占空比从0加到100，再从100减到0，往复变化。这样做的缺点是LED显示在视觉上是突然间变亮或变暗，因此在LED显示PWM调光中引入Gamma Correction，来获得比较满意的灰度变化(线性渐变)。</br>
 
 &ensp; Gamma曲线</br>
 &ensp; ![gamma_curve](https://i.loli.net/2020/08/21/2vhMTdngiIUDtRf.png)</br>
@@ -145,9 +137,7 @@ CONST uint16_t gamma_table[100] = {
 ```
 
 这个table表是否能为STM8S003所用？</br>
-STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉冲宽度25119 < 2^16, 只
-要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。在参
-考范例代码中只取了table表中的0--99。</br>
+STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉冲宽度25119 < 2^16, 只要将TIM1自动重载值设为大于或等于PWM最大脉冲宽度，就能实现PWM占空比从0--100%变化。在范例代码中只取了table表中的0--99。</br>
 
 ## Code
 ### stm8s_tim1_pwm
@@ -157,7 +147,7 @@ STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉
 This example shows how to configure the TIM1 peripheral to generate 4 PWM signals
 with different duty cycles by gamma_table value.
 
-This example provides a short description of how to use the TIM1 PWM peripheral:
+This example provides a short description of how to use the TIM1 PWM peripheral:  
 Change the macro define in chgcase_cfg.h listed as below before compile,
 TIM1_CH [1:4] will output corresponding PWM pulse.</br>
 
@@ -167,8 +157,25 @@ TIM1_CH [1:4] will output corresponding PWM pulse.</br>
 //#define GUI_LUMOS               1//breathing light
 ```
 
+@par How to use it?</br>
+In order to make the program work, you must do the following:
+- Copy all source files from this example folders INC and SRC to your target disk
+- Open your toolchain EWSTM8 and create a new project add all files you copied
+-  Configure your project options:
+ - General Options -> Target -> Device: STM8S003F3 or STM8S103F3P
+ - C/C++ Compiler -> Preprocessor -> Additional include dirctories: $PROJ_DIR$\INC
+ - C/C++ Compiler -> Preprocessor -> Defined symbol: STM8S003 or STM8S103
+ - Debugger -> Setup -> Driver: ST-Link
+- Rebuild all files and load your image into target memory
+- Run the example
+
 @par HINT</br>
 - Before using TIM1_CH3 and TIM1_CH4 you have to configure option bytes in order
   to enable alternate function.</br>
 - To do so</br>
   - With EWSTM8 (menu: ST-Link -> Option bytes -> AFR0 = Alternate Active)
+
+@notes
+- STM8S Standard Peripheral Library: STM8S_StdPeriph_Driver V2.3.0
+- IAR Embedded Workbench for STM8 IDE (EWSTM8)  
+ - Version 3.10.4
