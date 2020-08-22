@@ -158,15 +158,15 @@ TIM1_CH [1:4] will output corresponding PWM pulse.</br>
 
 @par How to use it?</br>
 In order to make the program work, you must do the following:
-- Copy all source files from this example folders INC and SRC to your target disk
-- Open your toolchain EWSTM8 and create a new project add all files you copied
--  Configure your project options:
- - General Options -> Target -> Device: STM8S003F3 or STM8S103F3P
- - C/C++ Compiler -> Preprocessor -> Additional include dirctories: $PROJ_DIR$\INC
- - C/C++ Compiler -> Preprocessor -> Defined symbol: STM8S003 or STM8S103
- - Debugger -> Setup -> Driver: ST-Link
-- Rebuild all files and load your image into target memory
-- Run the example
++ Copy all source files from this example folders INC and SRC to your target disk
++ Open your toolchain EWSTM8 and create a new project add all files you copied
++ Configure your project options:
+  - General Options -> Target -> Device: STM8S003F3 or STM8S103F3P
+  - C/C++ Compiler -> Preprocessor -> Additional include dirctories: $PROJ_DIR$\INC
+  - C/C++ Compiler -> Preprocessor -> Defined symbol: STM8S003 or STM8S103
+  - Debugger -> Setup -> Driver: ST-Link
++ Rebuild all files and load your image into target memory
++ Run the example
 
 @par HINT</br>
 - Before using TIM1_CH3 and TIM1_CH4 you have to configure option bytes in order
