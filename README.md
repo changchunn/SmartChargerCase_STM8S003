@@ -150,7 +150,7 @@ STM8S003输出4路PWM只能选用TIM1, 16位自动重载定时器，PWM最大脉
 考范例代码中只取了table表中的0--99。</br>
 
 ## Code
-### stm8s_tim1_pwm
+### stm8s_tim1_pwm.rar
 
 @par Example Description</br>
 
