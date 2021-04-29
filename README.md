@@ -179,5 +179,5 @@ In order to make the program work, you must do the following:
 - IAR Embedded Workbench for STM8 IDE (EWSTM8)  
  - Version 3.10.4
 
- @PS</br>
- &ensp;&ensp;It is too expensive of ST'mcu at now 2021 that there are no results for COVID-19. 
+PS :</br>
+ &ensp;&ensp;It is too expensive of ST'mcu at now 2021 that there are no results for COVID-19.
